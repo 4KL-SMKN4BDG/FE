@@ -1,91 +1,151 @@
-import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
+import { useEffect, useState } from 'react';
+import Swal from 'sweetalert2';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
+import { Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { SignIn } from '@/type/sign';
+import Input from '@/components/ui/InputField';
+import useAuthStore from '../store/auth.store';
+import { useNavigate } from 'react-router-dom';
+import { listed } from '@/constant/listed';
 
 const Login = () => {
+  const session = localStorage.getItem('refresh');
   const [showPassword, setShowPassword] = useState(false);
+  const { login, error, user } = useAuthStore();
+  const navigate = useNavigate();
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignIn>({
+    defaultValues: {
+      email: '', // digunakan sebagai NIS
+      password: '',
+    },
+    resolver: yupResolver(
+      yup.object({
+        email: yup.string().required('NIS wajib diisi'),
+        password: yup.string().required('Password wajib diisi'),
+      })
+    ),
+  });
+
+  useEffect(() => {
+    if (session) navigate(listed.dashboard);
+    else navigate(listed.signin);
+  }, [session, navigate]);
+
+  useEffect(() => {
+    if (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Login Gagal',
+        text: error,
+      });
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (user) navigate(listed.dashboard);
+  }, [user, navigate]);
+
+  const onSubmit = async (data: SignIn) => {
+    await login(data);
+    localStorage.setItem('userId', user?.id || '');
+  };
 
   return (
-    <div className="min-h-screen bg-[#f6f4ef] flex items-center justify-center px-4">
-      <div className="w-full max-w-6xl bg-white rounded-2xl shadow-xl overflow-hidden grid md:grid-cols-2">
+    <div
+      className="min-h-screen flex"
+      data-theme="dark"
+    >
+      {/* LEFT – LOGIN FORM */}
+      <div className="w-full md:w-1/2 flex items-center justify-center
+                      bg-gradient-to-b from-[#ffffff] to-[#dbdffc] p-8">
 
-        {/* LEFT SECTION */}
-        <div className="p-12 flex flex-col justify-center gap-8 bg-[#f6f4ef]">
+        <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-10">
 
-          {/* LOGO SMK */}
-          <img
-            src="/src/assets/logosmk4.png"
-            alt="Logo SMK"
-            className="h-14 w-fit"
-          />
+          <h2 className="text-3xl font-bold text-[#497EC0]">
+            Login Akun
+          </h2>
+          <p className="text-gray-600 text-sm mt-1 mb-6">
+            Masukkan NIS dan password untuk melanjutkan
+          </p>
 
-          {/* TITLE */}
-          <div>
-            <h1 className="text-2xl font-semibold text-gray-800">
-              Sign in to your account
-            </h1>
-            <p className="text-sm text-gray-500">
-              Masuk menggunakan akun Anda
-            </p>
-          </div>
-
-          {/* FORM */}
-          <form className="space-y-5">
-
+          <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
             {/* NIS */}
-            <input
-              type="text"
-              placeholder="NIS"
-              className="w-full px-5 py-3 rounded-xl bg-white shadow-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-
-            {/* PASSWORD */}
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="PASSWORD"
-                className="w-full px-5 py-3 rounded-xl bg-white shadow-md placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            <div>
+              <label className="font-medium text-gray-700">
+                NIS
+              </label>
+              <Input
+                type="text"
+                inputMode="numeric"
+                placeholder="Masukkan NIS"
+                error={errors?.email}
+                {...register('email')}
               />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
-              >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
             </div>
 
-            {/* FORGOT PASSWORD */}
-            <p className="text-sm text-blue-600 hover:underline cursor-pointer">
-              Forgot Password?
-            </p>
+            {/* PASSWORD */}
+            <div>
+              <label className="font-medium text-gray-700">
+                Password
+              </label>
+              <div className="relative">
+                <Input
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Masukkan password"
+                  error={errors?.password}
+                  {...register('password')}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2
+                            text-gray-500 hover:text-[#497EC0]"
+                >
+                  {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                </button>
+              </div>
+            </div>
 
-            {/* BUTTON */}
             <button
               type="submit"
-              className="w-full py-3 bg-blue-600 text-white rounded-xl font-semibold hover:bg-blue-700 transition"
+              className="w-full flex items-center justify-center gap-2 py-3 text-lg
+                        bg-[#497EC0] text-white rounded-xl
+                        hover:bg-[#3A67A3] transition"
             >
-              SIGN IN
+              Login
+              <ArrowRight size={18} />
             </button>
           </form>
         </div>
+      </div>
 
-        {/* RIGHT SECTION */}
-        <div
-          className="hidden md:block relative bg-cover bg-center"
-          style={{
-            backgroundImage: "url('/src/assets/fotodepansmk.jpeg')",
-          }}
-        >
-          {/* LOGO PKI (GANTI 4KL) */}
-          <div className="absolute top-6 right-6">
-            <img
-              src="src\assets\Logo nobg (1).png"
-              alt="Logo PKI"
-              className="h-12 w-auto drop-shadow-lg"
-            />
-          </div>
+      {/* RIGHT – IMAGE */}
+      <div
+        className="hidden md:block w-1/2 relative"
+        style={{
+          backgroundImage: "url('/Sekolah.jpeg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        {/* Overlay */}
+        {/* <div className="absolute inset-0 bg-[#497EC0]/50" /> */}
+
+        <div className="relative z-10 h-full flex flex-col justify-center p-12 text-white">
+          <h1 className="text-4xl font-extrabold">
+            Selamat Datang!
+          </h1>
+          <p className="mt-3 opacity-90 text-lg">
+            Sistem Informasi Praktik Kerja Lapangan
+          </p>
         </div>
-
       </div>
     </div>
   );
