@@ -1,4 +1,5 @@
 export const listed = {
-  signin: "/",
+  signin: "/signin",
   dashboard: "/dashboard",
+  resetpass: "/resetpass",
 };
