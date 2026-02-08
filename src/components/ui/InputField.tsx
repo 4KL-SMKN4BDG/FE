@@ -5,6 +5,9 @@ import { Message } from "./error.field";
 import { RiSearchLine } from "react-icons/ri";
 import { MdEmail } from "react-icons/md";
 import { IdCard, Lock, Phone, User } from "lucide-react";
+import { Eye, EyeOff } from "lucide-react";
+import { useState } from "react";
+
 
 type InputProps = {
   error?: string | FieldError;
@@ -32,6 +35,8 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
   ) => {
     const errorMessage = typeof error === "string" ? error : error?.message;
 
+    const [showPassword, setShowPassword] = useState(false);
+
     const selectedIcon = {
       search: <RiSearchLine size={15} className="opacity-30 mx-1" />,
       email: <MdEmail size={15} className="opacity-30 mx-1" />,
@@ -41,22 +46,25 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
       phone: <Phone size={15} className="opacity-30 mx-1" />,
     };
 
+    const isPassword = type === "password";
+
     return (
       <div className="w-full">
         <label
           className={twMerge(
-            icon ? "input w-full" : "form-control w-full",
+            icon || isPassword ? "input w-full relative" : "form-control w-full",
             className
           )}
         >
-          {icon && direction == "left"
-            ? selectedIcon[icon as keyof typeof selectedIcon]
-            : null}
+          {/* ICON KIRI */}
+          {icon && direction === "left" && selectedIcon[icon as keyof typeof selectedIcon]}
+
           <input
-            type={type}
+            ref={ref}
+            type={isPassword ? (showPassword ? "text" : "password") : type}
             placeholder={placeholder}
             onKeyDown={(e) => {
-              if (type == "tel") {
+              if (type === "tel") {
                 const allowedKeys = /[0-9]/;
                 const specialKeys = [
                   "Backspace",
@@ -64,25 +72,38 @@ const Input = forwardRef<HTMLInputElement, InputProps>(
                   "ArrowLeft",
                   "ArrowRight",
                 ];
-
                 if (!allowedKeys.test(e.key) && !specialKeys.includes(e.key)) {
                   e.preventDefault();
                 }
               }
             }}
             className={twMerge(
-              `${
-                icon ? "grow outline-none group" : "input input-bordered"
-              } w-full ${error ? "border-red-600" : ""}`,
+              `
+              ${icon || isPassword ? "grow outline-none" : "input input-bordered"}
+              w-full
+              ${error ? "border-red-600" : ""}
+              `,
               className
             )}
             {...rest}
-            ref={ref}
           />
-          {icon && direction == "right"
-            ? selectedIcon[icon as keyof typeof selectedIcon]
-            : null}
+
+          {/* ICON PASSWORD (KANAN) */}
+          {isPassword && (
+            <button
+              type="button"
+              onClick={() => setShowPassword((prev) => !prev)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
+              tabIndex={-1}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          )}
+
+          {/* ICON KANAN */}
+          {icon && direction === "right" && selectedIcon[icon as keyof typeof selectedIcon]}
         </label>
+
         <Message isError={Boolean(errorMessage)} message={errorMessage} />
       </div>
     );

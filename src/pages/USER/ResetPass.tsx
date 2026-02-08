@@ -111,8 +111,7 @@ export const ResetPass = () => {
                   w-full px-5 py-3 rounded-xl
                   bg-white shadow-md
                   placeholder-gray-500
-                  focus:outline-none focus:ring-2 focus:ring-blue-500
-                "
+                  focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button
                 type="button"
@@ -134,8 +133,7 @@ export const ResetPass = () => {
                   w-full px-5 py-3 rounded-xl
                   bg-white shadow-md
                   placeholder-gray-500
-                  focus:outline-none focus:ring-2 focus:ring-blue-500
-                "
+                  focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button
                 type="button"

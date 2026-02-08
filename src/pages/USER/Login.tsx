@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Swal from 'sweetalert2';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Eye, EyeOff} from 'lucide-react';
+// import { Eye, EyeOff} from 'lucide-react';
 import { SignIn } from '@/type/sign';
 import Input from '@/components/ui/InputField';
 import useAuthStore from '../../store/auth.store';
@@ -12,7 +12,7 @@ import { listed } from '@/constant/listed';
 
 const Login = () => {
   const session = localStorage.getItem('refresh');
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
   const { login, error, user } = useAuthStore();
   const navigate = useNavigate();
   
@@ -89,27 +89,18 @@ const Login = () => {
               inputMode="numeric"
               placeholder="NIS"
               error={errors?.email}
-              className="bg-white shadow-md rounded-xl"
+              className="bg-white shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
               {...register('email')}
             />
 
             {/* PASSWORD */}
-            <div className="relative">
               <Input
-                type={showPassword ? 'text' : 'password'}
+                type="password"
                 placeholder="PASSWORD"
                 error={errors?.password}
-                className="bg-white shadow-md rounded-xl"
-                {...register('password')}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
-              >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
-            </div>
+                className="bg-white shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
+                {...register("password")}
+                />
 
             {/* FORGOT PASSWORD */}
             <button type="button"
