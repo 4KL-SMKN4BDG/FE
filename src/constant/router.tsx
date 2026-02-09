@@ -9,6 +9,7 @@ import GuruPage from "@/pages/ADMIN/Guru";
 import AddPerusahaan from "@/pages/ADMIN/AddPerusahaan";
 import AddSiswa from "@/pages/ADMIN/AddSiswa";
 import AddGuru from "@/pages/ADMIN/AddGuru";
+import MainPage from "@/pages/USER/mainpage";
 
 const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
     path: listed.AddGuru,
     element: <AddGuru />,
   },
+  {
+    path: listed.MainPage,
+    element: <MainPage />,
+  }
 ]);
 
 export default Route;

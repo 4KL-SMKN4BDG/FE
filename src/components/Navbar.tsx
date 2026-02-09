@@ -16,7 +16,7 @@ const Navbar: FC<NavbarProps> = ({ toggleTheme, theme }) => {
   const { logout } = useAuthStore();
 
   useEffect(() => {
-    // TODO: Implement user data fetching if needed
+    // TODO: Add allUser function or remove if not needed
   }, []);
 
   const ChangRole = () => {
@@ -42,7 +42,7 @@ const Navbar: FC<NavbarProps> = ({ toggleTheme, theme }) => {
             <span className="font-bold sm:text-lg lg:text-lg  w-max text-xs ">
               Bestie
             </span>
-            <div className="badge badge-outline badge-accent"> {localStorage.getItem("role")}</div>
+            {/* <div className="badge badge-outline badge-accent"> {localStorage.getItem("role")}</div> */}
           </p>
 
         </div>

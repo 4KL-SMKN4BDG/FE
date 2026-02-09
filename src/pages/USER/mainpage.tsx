@@ -1,12 +1,7 @@
 import React, { useState } from "react";
+import Navbar from "@/components/Navbar";
 
 /* ================= INTERFACE ================= */
-interface Tutorial {
-  id: number;
-  title: string;
-  image: string;
-}
-
 interface Course {
   id: number;
   title: string;
@@ -15,12 +10,6 @@ interface Course {
 }
 
 /* ================= DATA ================= */
-const tutorials: Tutorial[] = [
-  { id: 1, title: "Selamat Datang", image: "src/assets/logoEflow.jpeg" },
-  { id: 2, title: "Tutorial", image: "src/assets/logoEflow.jpeg" },
-  { id: 3, title: "Tutorial 2", image: "src/assets/logoEflow.jpeg" },
-];
-
 const courses: Course[] = [
   {
     id: 1,
@@ -36,15 +25,35 @@ const courses: Course[] = [
   },
   {
     id: 3,
+    title: "Eflow Braja Mustika",
+    subtitle: "Eflow Baraya Multika",
+    logo: "src/assets/logoEflow.jpeg",
+  },
+  {
+    id: 4,
     title: "Eflow Baraya Multika",
     subtitle: "Eflow Baraya Multika",
     logo: "src/assets/logosmkn4.png",
+  },
+  {
+    id: 5,
+    title: "Curaweda Palangan Inotech",
+    subtitle: "Curaweda Palangan Inotech",
+    logo: "src/assets/logosmkn4.png",
+  },
+  {
+    id: 6,
+    title: "Eflow Baraya Multika",
+    subtitle: "Eflow Baraya Multika",
+    logo: "src/assets/logoEflow.jpeg",
   },
 ];
 
 /* ================= COMPONENT ================= */
 const MainPage: React.FC = () => {
   const [showForm, setShowForm] = useState(true);
+  const [theme, setTheme] = useState<"lofi" | "night">("lofi");
+  
 
   const [form, setForm] = useState({
     nama: "",
@@ -55,6 +64,10 @@ const MainPage: React.FC = () => {
     organisasi: "",
     pengalaman: "",
   });
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === "lofi" ? "night" : "lofi"));
+  };
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -69,43 +82,45 @@ const MainPage: React.FC = () => {
   };
 
   return (
-    <div style={styles.container}>
+    <div data-theme={theme} className="min-h-screen bg-base-100">
       {/* ================= MODAL FORM ================= */}
       {showForm && (
-        <div style={styles.modalOverlay}>
-          <div style={styles.modalBox}>
-            <h3 style={styles.formTitle}>FORMULIR PROFIL DIRI</h3>
+        <div className="fixed inset-0 bg-black/45 flex justify-center items-center z-[9999]">
+          <div className="w-[750px] max-w-[95%] bg-white rounded-[20px] px-9 py-8 relative">
+            <h3 className="text-center mb-6 text-xl font-bold">
+              FORMULIR PROFIL DIRI
+            </h3>
 
-            <div style={styles.row}>
+            <div className="flex gap-3 mb-3.5">
               <input
-                style={styles.input}
+                className="flex-1 px-4 py-3.5 rounded-[10px] border border-gray-300 text-[15px]"
                 placeholder="NAMA LENGKAP"
                 name="nama"
                 onChange={handleChange}
               />
               <input
-                style={styles.input}
+                className="flex-1 px-4 py-3.5 rounded-[10px] border border-gray-300 text-[15px]"
                 placeholder="TEMPAT, TANGGAL LAHIR"
                 name="ttl"
                 onChange={handleChange}
               />
             </div>
 
-            <div style={styles.gridAlamat}>
+            <div className="grid grid-cols-[2fr_1fr_1fr] gap-3 mb-3.5">
               <input
-                style={styles.input}
+                className="px-4 py-3.5 rounded-[10px] border border-gray-300 text-[15px]"
                 placeholder="ALAMAT LENGKAP"
                 name="alamat"
                 onChange={handleChange}
               />
               <input
-                style={styles.input}
+                className="px-4 py-3.5 rounded-[10px] border border-gray-300 text-[15px]"
                 placeholder="KELURAHAN"
                 name="kelurahan"
                 onChange={handleChange}
               />
               <input
-                style={styles.input}
+                className="px-4 py-3.5 rounded-[10px] border border-gray-300 text-[15px]"
                 placeholder="KECAMATAN"
                 name="kecamatan"
                 onChange={handleChange}
@@ -113,63 +128,64 @@ const MainPage: React.FC = () => {
             </div>
 
             <textarea
-              style={styles.textarea}
+              className="w-full h-[120px] px-4 py-3.5 rounded-[10px] border border-gray-300 text-[15px] mb-3.5 resize-none"
               placeholder="ORGANISASI YANG PERNAH ANDA IKUTI"
               name="organisasi"
               onChange={handleChange}
             />
 
             <textarea
-              style={styles.textarea}
+              className="w-full h-[120px] px-4 py-3.5 rounded-[10px] border border-gray-300 text-[15px] mb-3.5 resize-none"
               placeholder="PENGALAMAN"
               name="pengalaman"
               onChange={handleChange}
             />
 
-            <button style={styles.submitBtn} onClick={handleSubmit}>
+            <button
+              className="float-right bg-blue-600 text-white border-none w-12 h-12 rounded-full text-xl cursor-pointer hover:bg-blue-700 transition"
+              onClick={handleSubmit}
+            >
               ➜
             </button>
           </div>
         </div>
       )}
 
-      {/* ================= HEADER ================= */}
-      <header style={styles.header}>
-        <div>
-          <h3 style={{ margin: 0 }}>Title</h3>
-          <span style={{ fontSize: 12, color: "#666" }}>Description</span>
-        </div>
-        <button style={styles.logoutBtn}>Log Out</button>
-      </header>
+      {/* ================= NAVBAR ================= */}
+      <Navbar toggleTheme={toggleTheme} theme={theme} />
 
       {/* ================= BANNER ================= */}
-      <section style={styles.banner}>
-        <div style={styles.overlay}></div>
-        <h1 style={styles.bannerText}>SELAMAT DATANG</h1>
-      </section>
-
-      {/* ================= TUTORIAL ================= */}
-      <section style={styles.tutorialSection}>
-        {tutorials.map((item) => (
-          <div key={item.id} style={styles.tutorialItem}>
-            <div style={styles.tutorialCircle}>
-              <img src={item.image} style={styles.tutorialImg} />
-            </div>
-            <p style={styles.tutorialTitle}>{item.title}</p>
-          </div>
-        ))}
-      </section>
+<section className="px-8 pt-6">
+  <div
+    className="relative h-[200px] bg-cover bg-center flex justify-center items-center rounded-1xl overflow-hidden"
+    style={{ backgroundImage: "url('src/assets/fotodepansmk.jpeg')" }}
+  >
+    <div className="absolute inset-0 bg-black/50"></div>
+    <h1 className="font-kameron relative text-white text-5xl font-bold tracking-wide">
+      SELAMAT DATANG
+    </h1>
+  </div>
+</section>
 
       {/* ================= COURSE ================= */}
-      <section style={styles.courseSection}>
+      <section className="max-w-7xl mx-auto px-8 py-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {courses.map((course) => (
-          <div key={course.id} style={styles.courseCard}>
-            <div style={styles.logoWrapper}>
-              <img src={course.logo} style={styles.courseLogo} />
+          <div
+            key={course.id}
+            className="bg-base-200 p-6 rounded-xl text-center shadow-md hover:shadow-xl transition"
+          >
+            <div className="h-40 flex items-center justify-center mb-4">
+              <img
+                src={course.logo}
+                className="w-[120px] h-[120px] object-contain"
+                alt={course.title}
+              />
             </div>
-            <h4>{course.title}</h4>
-            <p style={{ fontSize: 13, color: "#666" }}>{course.subtitle}</p>
-            <button style={styles.viewBtn}>View</button>
+            <h4 className="text-lg font-bold text-base-content mb-2">
+              {course.title}
+            </h4>
+            <p className="text-sm text-gray-500 mb-4">{course.subtitle}</p>
+            <button className="btn btn-primary w-max mx-auto">View</button>
           </div>
         ))}
       </section>
@@ -178,185 +194,3 @@ const MainPage: React.FC = () => {
 };
 
 export default MainPage;
-
-/* ================= STYLES ================= */
-const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    minHeight: "100vh",
-    background: "#f5f5f5",
-    fontFamily: "Arial, sans-serif",
-  },
-
-  /* ===== MODAL ===== */
-  modalOverlay: {
-    position: "fixed",
-    inset: 0,
-    background: "rgba(0,0,0,0.45)",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    zIndex: 9999,
-  },
-
-  modalBox: {
-    width: 750,
-    maxWidth: "95%",
-    background: "#fff",
-    borderRadius: 20,
-    padding: "32px 36px",
-    position: "relative",
-  },
-
-  formTitle: {
-    textAlign: "center",
-    marginBottom: 24,
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-
-  row: {
-    display: "flex",
-    gap: 12,
-    marginBottom: 14,
-  },
-
-  gridAlamat: {
-    display: "grid",
-    gridTemplateColumns: "2fr 1fr 1fr",
-    gap: 12,
-    marginBottom: 14,
-  },
-
-  input: {
-    flex: 1,
-    padding: "14px 16px",
-    borderRadius: 10,
-    border: "1px solid #ccc",
-    fontSize: 15,
-  },
-
-  textarea: {
-    width: "100%",
-    height: 120,
-    padding: "14px 16px",
-    borderRadius: 10,
-    border: "1px solid #ccc",
-    fontSize: 15,
-    marginBottom: 14,
-  },
-
-  submitBtn: {
-    float: "right",
-    background: "#2563eb",
-    color: "#fff",
-    border: "none",
-    width: 48,
-    height: 48,
-    borderRadius: "50%",
-    fontSize: 20,
-    cursor: "pointer",
-  },
-
-  /* ===== HEADER & CONTENT ===== */
-  header: {
-    background: "#fff",
-    padding: "16px 24px",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-
-  logoutBtn: {
-    background: "transparent",
-    border: "none",
-    fontWeight: "bold",
-    cursor: "pointer",
-  },
-
-  banner: {
-    position: "relative",
-    height: 250,
-    backgroundImage: "url('src/assets/fotodepansmk.jpeg')",
-    backgroundSize: "cover",
-    backgroundPosition: "center",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-
-  overlay: {
-    position: "absolute",
-    inset: 0,
-    background: "rgba(0,0,0,0.45)",
-  },
-
-  bannerText: {
-    position: "relative",
-    color: "#fff",
-    fontSize: 32,
-    fontWeight: "bold",
-  },
-
-  tutorialSection: {
-    display: "flex",
-    gap: 32,
-    padding: 40,
-  },
-
-  tutorialItem: { textAlign: "center" },
-
-  tutorialCircle: {
-    width: 150,
-    height: 150,
-    borderRadius: "50%",
-    border: "5px solid #22c55e",
-    overflow: "hidden",
-  },
-
-  tutorialImg: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover",
-  },
-
-  tutorialTitle: {
-    marginTop: 12,
-    fontWeight: "bold",
-  },
-
-  courseSection: {
-    padding: 24,
-    display: "grid",
-    gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))",
-    gap: 20,
-  },
-
-  courseCard: {
-    background: "#fff",
-    padding: 20,
-    borderRadius: 12,
-    textAlign: "center",
-  },
-
-  logoWrapper: {
-    height: 160,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-
-  courseLogo: {
-    width: 120,
-    height: 120,
-    objectFit: "contain",
-  },
-
-  viewBtn: {
-    background: "#1d4ed8",
-    color: "#fff",
-    border: "none",
-    padding: "6px 16px",
-    borderRadius: 4,
-    cursor: "pointer",
-  },
-};

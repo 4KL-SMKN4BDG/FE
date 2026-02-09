@@ -9,4 +9,5 @@ export const listed = {
   AddPerusahaan: "/addperusahaan", 
   AddSiswa: "/addsiswa",
   AddGuru: "/addguru",
+  MainPage: "/mainpage",
 };
