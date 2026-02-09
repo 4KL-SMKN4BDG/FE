@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { listed } from "@/constant/listed";
 
 const AddGuru = () => {
 const navigate = useNavigate();
@@ -50,7 +51,7 @@ const handleSubmit = (e: React.FormEvent) => {
     <div className="max-w-6xl mx-auto px-6 py-8">
 
         {/* BACK */}
-        <button onClick={() => navigate("/admin/guru")} className="mb-6 flex items-center gap-2 text-sm font-bold text-gray-500 hover:underline">
+        <button onClick={() => navigate(listed.GuruPage)} className="mb-6 flex items-center gap-2 text-sm font-bold text-gray-500 hover:underline">
         <ArrowLeft size={18} />Kembali</button>
 
         {/* FORM */}

@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { Building2, Users, GraduationCap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { listed } from "@/constant/listed";
 
 const DashboardAdmin = () => {
     const navigate = useNavigate();
@@ -19,21 +20,21 @@ const DashboardAdmin = () => {
         description:
         "Kelola data perusahaan tempat siswa melaksanakan Praktik Kerja Lapangan.",
         icon: <Building2 size={40} />,
-        path: "/admin/perusahaan",
+        path: listed.PerusahaanPage,
     },
     {
         title: "Guru Pembimbing",
         description:
         "Kelola data guru pembimbing yang bertanggung jawab selama PKL.",
         icon: <Users size={40} />,
-        path: "/admin/guru",
+        path: listed.GuruPage,
     },
     {
         title: "Siswa",
         description:
         "Kelola data siswa yang mengikuti Praktik Kerja Lapangan.",
         icon: <GraduationCap size={40} />,
-        path: "/admin/siswa",
+        path: listed.SiswaPage,
     },
     ];
 
@@ -68,7 +69,7 @@ const DashboardAdmin = () => {
                 {card.title}
                 </h2>
 
-                <p className="text-base-content/70 text-gray-400 text-sm">
+                <p className="text-base-content70 text-gray-400 text-sm">
                 {card.description}
                 </p>
             </div>

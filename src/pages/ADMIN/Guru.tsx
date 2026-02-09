@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
+import { listed } from "@/constant/listed";
 
 interface Guru {
     id: number;
@@ -58,13 +59,13 @@ const data: Guru[] = [
     <div className="max-w-6xl mx-auto px-6 py-8">
 
         {/* BACK BUTTON */}
-    <button onClick={() => navigate("/admin")} className="mb-5 flex items-center gap-2 text-sm font-bold text-gray-500 hover:underline">
+    <button onClick={() => navigate(listed.dashboard)} className="mb-5 flex items-center gap-2 text-sm font-bold text-gray-500 hover:underline">
         <ArrowLeft size={18} /> Kembali
     </button>
 
         {/* ACTION BUTTON */}
     <div className="flex gap-3 mb-6 justify-end">
-        <button onClick={() => navigate("/admin/guru/add")} className="btn btn-success btn-sm">ADD</button>
+        <button onClick={() => navigate(listed.AddGuru)} className="btn btn-success btn-sm">ADD</button>
         <button className="btn btn-info btn-sm">EDIT</button>
         <button className="btn btn-error btn-sm">DELETE</button>
     </div>

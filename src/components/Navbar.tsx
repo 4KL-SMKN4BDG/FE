@@ -5,7 +5,6 @@ import { CiCircleList, CiSun } from "react-icons/ci";
 import { FaMoon } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import useAuthStore from "@/store/auth.store";
-import userStore from "@/store/user.store";
 import { useEffect } from "react";
 interface NavbarProps {
   toggleTheme: () => void;
@@ -15,11 +14,10 @@ interface NavbarProps {
 const Navbar: FC<NavbarProps> = ({ toggleTheme, theme }) => {
   const navigate = useNavigate();
   const { logout } = useAuthStore();
-  const { allUser } = userStore();
 
   useEffect(() => {
-    allUser();
-  }, [allUser]);
+    // TODO: Implement user data fetching if needed
+  }, []);
 
   const ChangRole = () => {
     navigate(listed.selectRole);
