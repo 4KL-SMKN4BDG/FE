@@ -10,6 +10,7 @@ import AddPerusahaan from "@/pages/ADMIN/AddPerusahaan";
 import AddSiswa from "@/pages/ADMIN/AddSiswa";
 import AddGuru from "@/pages/ADMIN/AddGuru";
 import MainPage from "@/pages/USER/mainpage";
+import RequestPage from "@/pages/USER/requestpage";
 
 const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
     path: listed.dashboard,
     element: <Dashboard />,
+  },
+  {
+    path: listed.RequestPage,
+    element: <RequestPage />,
   },
 
   // ADMIN PAGES
@@ -53,7 +58,7 @@ const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
     path: listed.MainPage,
     element: <MainPage />,
-  }
+  },
 ]);
 
 export default Route;
