@@ -84,12 +84,11 @@ const Login = () => {
           <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
 
             {/* NIS */}
-            <Input
+            <Input  
               type="text"
               inputMode="numeric"
               placeholder="NIS"
               error={errors?.email}
-              className="bg-white shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
               {...register('email')}
             />
 
@@ -98,7 +97,6 @@ const Login = () => {
                 type="password"
                 placeholder="PASSWORD"
                 error={errors?.password}
-                className="bg-white shadow-md rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500"
                 {...register("password")}
                 />
 

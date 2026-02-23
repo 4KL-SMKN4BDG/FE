@@ -1,11 +1,11 @@
-import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { listed } from "@/constant/listed";
+import Input from "@/components/ui/InputField";
+
 
 
 const schema = yup.object({
@@ -26,9 +26,6 @@ type ResetPassFormData = {
 export const ResetPass = () => {
   const navigate = useNavigate();
   const session = localStorage.getItem("refresh");
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirm, setShowConfirm] = useState(false);
-  const [success, setSuccess] = useState(false);
 
   const {
     register,
@@ -48,13 +45,9 @@ export const ResetPass = () => {
     if (session) navigate(listed.dashboard);
   }, [session, navigate]);
 
-  useEffect(() => {
-    if (success) navigate(listed.signin);
-  }, [success, navigate]);
-
   const onSubmit = (data: ResetPassFormData) => {
     console.log("DATA RESET:", data);
-    setSuccess(true);
+    navigate(listed.signin);
   };
 
   return (
@@ -88,64 +81,27 @@ export const ResetPass = () => {
             onSubmit={handleSubmit(onSubmit)}
           >
             {/* NIS */}
-            <input
+            <Input
               type="text"
               placeholder="NIS"
+              error={errors?.nis}
               {...register("nis")}
-              className="
-                w-full px-5 py-3 rounded-xl
-                bg-white shadow-md
-                placeholder-gray-500
-                focus:outline-none focus:ring-2 focus:ring-blue-500
-              "
             />
-            <p className="text-sm text-red-500">{errors.nis?.message}</p>
 
             {/* PASSWORD BARU */}
-            <div className="relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                placeholder="PASSWORD BARU"
-                {...register("password")}
-                className="
-                  w-full px-5 py-3 rounded-xl
-                  bg-white shadow-md
-                  placeholder-gray-500
-                  focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
-              >
-                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
-            </div>
-            <p className="text-sm text-red-500">{errors.password?.message}</p>
-
+            <Input
+              type={"password"}
+              placeholder="PASSWORD BARU"
+              error={errors?.password}
+              {...register("password")}              
+            />
+    
             {/* KONFIRMASI PASSWORD */}
-            <div className="relative">
-              <input
-                type={showConfirm ? "text" : "password"}
-                placeholder="KONFIRMASI PASSWORD"
-                {...register("confirmPassword")}
-                className="
-                  w-full px-5 py-3 rounded-xl
-                  bg-white shadow-md
-                  placeholder-gray-500
-                  focus:outline-none focus:ring-2 focus:ring-blue-500"
-              />
-              <button
-                type="button"
-                onClick={() => setShowConfirm(!showConfirm)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
-              >
-                {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
-              </button>
-            </div>
-            <p className="text-sm text-red-500">
-              {errors.confirmPassword?.message}
-            </p>
+            <Input
+              type={"password"}
+              placeholder="KONFIRMASI PASSWORD"
+              {...register("confirmPassword")}
+            />
 
             {/* BUTTON */}
             <button
