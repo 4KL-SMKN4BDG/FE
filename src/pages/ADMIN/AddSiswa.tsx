@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import { useNavigate } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { listed } from "@/constant/listed";
+import fotoDepan from "../../assets/fotodepansmk.jpeg";
 
 const AddSiswa = () => {
 const navigate = useNavigate();
@@ -32,7 +33,7 @@ return (
 
       {/* HEADER */}
         <div className="relative h-56 overflow-hidden">
-        <img src="/Sekolah.jpeg" alt="Header" className="w-full h-full object-cover"/>
+        <img src={fotoDepan} alt="Header" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/40" />
         <div className="absolute inset-0 flex items-center justify-center">
         <h1 className="text-white text-3xl font-bold tracking-widest">

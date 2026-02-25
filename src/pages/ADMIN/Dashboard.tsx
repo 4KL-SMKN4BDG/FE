@@ -3,6 +3,7 @@ import Navbar from "@/components/Navbar";
 import { Building2, Users, GraduationCap } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { listed } from "@/constant/listed";
+import fotoDepan from "../../assets/fotodepansmk.jpeg";
 
 const DashboardAdmin = () => {
     const navigate = useNavigate();
@@ -46,7 +47,7 @@ const DashboardAdmin = () => {
 
       {/* HEADER */}
         <div className="relative h-56 overflow-hidden">
-        <img src="/Sekolah.jpeg" alt="Header" className="w-full h-full object-cover"/>
+        <img src={fotoDepan} alt="Header" className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/30" />
         <div className="absolute inset-0 flex items-center justify-center">
             <h1 className="text-white text-3xl font-bold tracking-widest">Dashboard Admin</h1>

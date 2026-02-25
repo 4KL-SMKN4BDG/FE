@@ -62,8 +62,11 @@ const RequestPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-3 grid-rows-2 gap-8">
 
           {/* ===== ROW 1 LEFT (LOGO) ===== */}
-          <div className="h-80 rounded-2xl border bg-white flex items-center justify-center shadow">
-            <img src="/logo.png" alt="Eflow Logo" className="w-32" />
+          <div className="h-80 rounded-2xl border bg-white flex items-center justify-center shadow"
+                style={{
+              backgroundImage: "(src\assets\eplow.png)",
+              backgroundPosition: "center",
+                }}>
           </div>
 
           {/* ===== ROW 1 RIGHT (TITLE) ===== */}
