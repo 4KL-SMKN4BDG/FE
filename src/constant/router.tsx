@@ -7,6 +7,8 @@ import PerusahaanPage from "@/pages/ADMIN/PerusahaanPages";
 import SiswaPage from "@/pages/ADMIN/AddSiswa";
 import GuruPage from "@/pages/ADMIN/Guru";
 import AddPerusahaan from "@/pages/ADMIN/AddPerusahaan";
+import EditPerusahaan from "@/pages/ADMIN/EditPerusahaan";
+import View from "@/pages/ADMIN/View";
 import AddSiswa from "@/pages/ADMIN/AddSiswa";
 import AddGuru from "@/pages/ADMIN/AddGuru";
 import MainPage from "@/pages/USER/mainpage";
@@ -51,6 +53,14 @@ const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
   {
     path: listed.AddPerusahaan,
     element: <AddPerusahaan />,
+  },
+    {
+    path: listed.EditPerusahaan,
+    element: <EditPerusahaan />,
+  },
+    {
+    path: listed.View,
+    element: <View />
   },
   {
     path: listed.AddSiswa,
