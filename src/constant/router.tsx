@@ -23,8 +23,8 @@ const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
     element: <ResetPass/>,
   },
   {
-    path: listed.dashboard,
-    element: <Dashboard />,
+    path: listed.MainPage,
+    element: <MainPage />,
   },
   {
     path: listed.RequestPage,
@@ -61,8 +61,8 @@ const Route: ReturnType<typeof createBrowserRouter> = createBrowserRouter([
     element: <AddGuru />,
   },
   {
-    path: listed.MainPage,
-    element: <MainPage />,
+    path: listed.dashboard,
+    element: <Dashboard />,
   },
 ]);
 
