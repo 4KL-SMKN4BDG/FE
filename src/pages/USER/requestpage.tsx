@@ -64,7 +64,7 @@ const RequestPage: React.FC = () => {
           {/* ===== ROW 1 LEFT (LOGO) ===== */}
           <div className="h-80 rounded-2xl border bg-white flex items-center justify-center shadow"
                 style={{
-              backgroundImage: "(src\assets\eplow.png)",
+              backgroundImage: "url('src/assets/eplow.png')",
               backgroundPosition: "center",
                 }}>
           </div>
