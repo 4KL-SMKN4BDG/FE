@@ -9,6 +9,8 @@ export const listed = {
   SiswaPage: "/siswa",
   GuruPage: "/guru", 
   AddPerusahaan: "/addperusahaan", 
+  EditPerusahaan: "/editperusahaan",
+  View: "/view",
   AddSiswa: "/addsiswa",
   AddGuru: "/addguru",
   MainPage: "/mainpage",
