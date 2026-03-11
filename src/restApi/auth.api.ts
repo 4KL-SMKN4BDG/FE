@@ -4,25 +4,33 @@ import { Role } from "./utils/user";
 
 export interface User {
   id: string;
-  roleId: string;
-  idUser: string;
-  fullName: string;
+  name: string;
+  nomorInduk: string;
   email: string;
-  phoneWA: string;
-  nik: number;
-  roles: Role[];
-  signature: string | null;
+
+  class: string;
+  major: string;
   status: string | null;
+
+  organizationDesc: string | null;
+  experienceDesc: string;
+
+  birthPlace: string;
+  birthDate: string;
+  address: string;
+  profilePhoto: string;
+  companyId: string;
   createdAt: string;
-  divisionId: string;
-  hirarkyId: string;
+  updatedAt: string;
+
+  roles: Role[];
 }
 
 export interface LoginData {
   user: User;
   token: {
-    access_token: string;
-    refresh_token: string;
+    accessToken: string;
+    refreshToken: string;
   };
 }
 
@@ -33,7 +41,7 @@ export interface LoginResponse {
 }
 
 export interface LoginCredentials {
-  email: string;
+  nomorInduk: string;
   password: string;
 }
 
@@ -55,10 +63,10 @@ export const loginAPI = async (
 };
 
 export const refreshTokenAPI = async (
-  refresh_token: string
+  refreshToken: string
 ): Promise<LoginResponse> => {
   const response = await apiClient.post<LoginResponse>("/api/v1/auth/refresh", {
-    refresh_token,
+    refreshToken,
   });
   return response.data;
 };

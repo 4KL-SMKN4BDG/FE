@@ -40,12 +40,12 @@ const useAuthStore = create<AuthState>((set) => ({
 
       set({
         user,
-        token: token.access_token,
+        token: token.accessToken,
         isLoading: false,
       });
 
-      sessionStorage.setItem("token", token.access_token);
-      localStorage.setItem("refresh", token.refresh_token);
+      sessionStorage.setItem("token", token.accessToken);
+      localStorage.setItem("refresh", token.refreshToken);
       sessionStorage.setItem("user", JSON.stringify(user));
     } catch (error) {
       set({
@@ -73,11 +73,11 @@ const useAuthStore = create<AuthState>((set) => ({
       const response: LoginResponse = await refreshTokenAPI(refreshToken);
       const { token } = response.data;
 
-      sessionStorage.setItem("token", token.access_token);
-      localStorage.setItem("refresh", token.refresh_token);
-      set({ token: token.access_token });
+      sessionStorage.setItem("token", token.accessToken);
+      localStorage.setItem("refresh", token.refreshToken);
+      set({ token: token.accessToken });
 
-      return token.access_token;
+      return token.accessToken;
     } catch (error) {
       const errorMessage = getErrorMessage(error);
       set({ user: null, token: null, error: errorMessage });

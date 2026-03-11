@@ -1,5 +1,5 @@
 export type SignIn = {
-    email: string;
+    nomorInduk: string;
     password: string;
   };
   

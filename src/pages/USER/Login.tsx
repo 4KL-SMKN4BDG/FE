@@ -23,12 +23,12 @@ const Login = () => {
     formState: { errors },
   } = useForm<SignIn>({
     defaultValues: {
-      email: '', // NIS
+      nomorInduk: '', // NIS
       password: '',
     },
     resolver: yupResolver(
       yup.object({
-        email: yup.string().required('NIS wajib diisi'),
+        nomorInduk: yup.string().required('NIS wajib diisi'),
         password: yup.string().required('Password wajib diisi'),
       })
     ),
@@ -88,8 +88,8 @@ const Login = () => {
               type="text"
               inputMode="numeric"
               placeholder="NIS"
-              error={errors?.email}
-              {...register('email')}
+              error={errors?.nomorInduk}
+              {...register('nomorInduk')}
             />
 
             {/* PASSWORD */}
