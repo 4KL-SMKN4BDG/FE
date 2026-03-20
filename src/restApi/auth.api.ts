@@ -1,4 +1,5 @@
 // src/api/authAPI.ts
+// import { reset } from "canvas-confetti";
 import apiClient from "./base.api";
 import { Role } from "./utils/user";
 
@@ -45,6 +46,10 @@ export interface LoginCredentials {
   password: string;
 }
 
+export interface ResetPassword{
+  newPassword: string;
+}
+
 export const loginAPI = async (
   credentials: LoginCredentials
 ): Promise<LoginResponse> => {
@@ -59,6 +64,23 @@ export const loginAPI = async (
       },
     }
   );
+  return response.data;
+};
+
+export const resetPassword = async (
+  newPassword: ResetPassword
+): Promise<void> => {
+  const token = sessionStorage.getItem("token");
+  const response = await apiClient.post(
+  "/api/v1/auth/reset-password",
+  newPassword,
+  {
+    headers: {
+      authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    },
+  }
+);
   return response.data;
 };
 

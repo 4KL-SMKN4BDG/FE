@@ -5,11 +5,10 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { listed } from "@/constant/listed";
 import Input from "@/components/ui/InputField";
-
-
+import useAuthStore from "@/store/auth.store";
 
 const schema = yup.object({
-  nis: yup.string().required("NIS wajib diisi"),
+  email: yup.string().required("Email wajib diisi"),
   password: yup.string().required("Password baru wajib diisi"),
   confirmPassword: yup
     .string()
@@ -18,12 +17,13 @@ const schema = yup.object({
 });
 
 type ResetPassFormData = {
-  nis: string;
+  email: string;
   password: string;
   confirmPassword: string;
 };
 
 export const ResetPass = () => {
+  const { resetPassword } = useAuthStore();
   const navigate = useNavigate();
   const session = localStorage.getItem("refresh");
 
@@ -35,7 +35,7 @@ export const ResetPass = () => {
     mode: "onChange",
     resolver: yupResolver(schema),
     defaultValues: {
-      nis: "",
+      email: "",
       password: "",
       confirmPassword: "",
     },
@@ -46,7 +46,7 @@ export const ResetPass = () => {
   }, [session, navigate]);
 
   const onSubmit = (data: ResetPassFormData) => {
-    console.log("DATA RESET:", data);
+    resetPassword({ newPassword:data.password});
     navigate(listed.signin);
   };
 
@@ -71,7 +71,7 @@ export const ResetPass = () => {
               Reset Your Password
             </h1>
             <p className="text-sm text-gray-500">
-              Masukkan NIS dan password baru Anda
+              Masukkan email dan password baru Anda
             </p>
           </div>
 
@@ -80,12 +80,12 @@ export const ResetPass = () => {
             className="space-y-5"
             onSubmit={handleSubmit(onSubmit)}
           >
-            {/* NIS */}
+            {/* email */}
             <Input
               type="text"
-              placeholder="NIS"
-              error={errors?.nis}
-              {...register("nis")}
+              placeholder="email"
+              error={errors?.email}
+              {...register("email")}
             />
 
             {/* PASSWORD BARU */}
@@ -114,7 +114,7 @@ export const ResetPass = () => {
                   : "bg-gray-400 text-gray-200 cursor-not-allowed"}
               `}
             >
-              RISET
+              RESET
             </button>
           </form>
         </div>
