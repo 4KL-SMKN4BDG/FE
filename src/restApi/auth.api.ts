@@ -104,13 +104,11 @@ export const forgotPasswordAPI = async (
 export const resetPasswordAPI = async (
   data: ResetPassword
 ): Promise<void> => {
-  const token = sessionStorage.getItem("token");
   const response = await apiClient.post(
   "/api/v1/auth/reset-password",
   data,
   {
     headers: {
-      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
   }
