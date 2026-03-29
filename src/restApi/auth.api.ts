@@ -1,44 +1,5 @@
-// src/api/authAPI.ts
-// import { reset } from "canvas-confetti";
 import apiClient from "./base.api";
-// import { Role } from "./utils/user";
-
-export interface User {
-  id: string;
-  name: string;
-  nomorInduk: string;
-  email: string | null;
-
-  class: string | null;
-  major: string | null;
-  status: string | null;
-
-  organizationDesc: string | null;
-  experienceDesc: string | null;
-
-  birthPlace: string | null;
-  birthDate: string | null;
-  address: string | null;
-  profilePhoto: string | null;
-  companyId: string | null;
-  createdAt: string;
-  updatedAt: string;
-
-  roles: Role[];
-  company: Company | null;
-}
-
-export interface Company {
-  id: string
-}
-
-export interface Role {
-  id: string,
-  code: string,
-  description: string,
-  createdAt: string,
-  updatedAt: string
-}
+import { User } from "./user.api";
 
 export interface LoginData {
   user: User;
@@ -59,7 +20,7 @@ export interface LoginCredentials {
   password: string;
 }
 
-export interface ResetPassword{
+export interface ResetPassword {
   resetToken: string;
   newPassword: string;
 }

@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { listed } from "@/constant/listed";
 import fotoDepan from "../../assets/fotodepansmk.jpeg";
 import companyStore from "@/store/company.store";
+import useAuthStore from "@/store/auth.store";
 
     const PerusahaanPage = () => {
     const navigate = useNavigate();
@@ -13,14 +14,15 @@ import companyStore from "@/store/company.store";
     const toggleTheme = () => {
     setTheme(prev => (prev === "lofi" ? "night" : "lofi"));
 };
-
-    const { showAll, company } = companyStore();
+    const { user } = useAuthStore();
+    // if (user?.roles[0].code === null) navigate(listed.signin);
+    const role = user?.roles[0].code === "ADMIN" ? "ADMIN" : "STUDENT";
+    const { showAll, company, deleteCompany, apply } = companyStore();
 
     const payload = `paginate=true&limit=10`
-useEffect(() => {
+    useEffect(() => {
     showAll(payload);
-
-}, []);
+    }, []);
 
     return (
     <div data-theme={theme} className="min-h-screen bg-base-200">
@@ -46,9 +48,9 @@ useEffect(() => {
     </button>
 
         {/* ACTION BUTTON */}
-    <div className="flex gap-3 mb-6 justify-end">
+    {role === "ADMIN" && (<div className="flex gap-3 mb-6 justify-end">
         <button onClick={() => navigate(listed.AddPerusahaan)} className="btn btn-success btn-sm">ADD NEW COMPANY</button>
-    </div>
+    </div>)}
 
         {/* LIST */}
     <div className="bg-base-100 rounded-xl shadow">
@@ -70,20 +72,27 @@ useEffect(() => {
                     Show detail
                 </button>
             </div>
-            <div>
+            {role === "ADMIN" && (<div>
                 <button onClick={() => {
-                    navigate(`${listed.EditPerusahaan}?id=${item.id}`)
+                    navigate(`${listed.AddPerusahaan}?id=${item.id}`)
                 }}>
                     Edit
                 </button>
-            </div>
-            <div>
+            </div>)}
+            {role === "ADMIN" && (<div>
                 <button onClick={() => {
-                    //delete function
+                    deleteCompany(item.id)
                 }}>
                     Delete
                 </button>
-            </div>
+            </div>)}
+            {role === "STUDENT" && (<div>
+                <button onClick={() => {
+                    apply(item.id)
+                }}>
+                    Apply
+                </button>
+            </div>)}
             </div>
         ))}
         </div>

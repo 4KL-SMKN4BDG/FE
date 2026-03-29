@@ -5,12 +5,13 @@ import {
   LoginCredentials,
   LoginResponse,
   refreshTokenAPI,
-  User,
   ResetPassword,
   resetPasswordAPI,
   ForgotPassword,
   forgotPasswordAPI
 } from "@/restApi/auth.api";
+
+import { User } from "../restApi/user.api"
 import getErrorMessage from "@/restApi/helper.api";
 
 interface AuthState {

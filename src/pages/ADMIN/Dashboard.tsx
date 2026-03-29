@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { listed } from "@/constant/listed";
 import fotoDepan from "../../assets/fotodepansmk.jpeg";
 
+
 const DashboardAdmin = () => {
     const navigate = useNavigate();
 
@@ -35,7 +36,7 @@ const DashboardAdmin = () => {
         description:
         "Kelola data siswa yang mengikuti Praktik Kerja Lapangan.",
         icon: <GraduationCap size={40} />,
-        path: listed.SiswaPage,
+        path: listed.AddSiswa, //sementara diubah dulu buat developmenyt
     },
     ];
 

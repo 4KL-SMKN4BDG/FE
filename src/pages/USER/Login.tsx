@@ -50,7 +50,10 @@ const Login = () => {
   }, [error]);
 
   useEffect(() => {
-    if (user) navigate(listed.dashboard);
+    if (user) { 
+      if (user.email) navigate(listed.dashboard) 
+      else navigate(listed.MainPage)
+      };
   }, [user, navigate]);
 
   const onSubmit = async (data: SignIn) => {

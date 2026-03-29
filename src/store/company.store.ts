@@ -2,15 +2,15 @@
 import { create } from "zustand";
 import {
   Company,
-  CompanyResponse,
+  CompanyDetails,
   CompanyShowAllAPI,
   CompanyShowOneAPI,
   CompanyCreateAPI,
   CompanyUpdateAPI,
   CompanyDeleteAPI,
-  CompanyCreate,
-  CompanyCreateResponse,
-  CompanyDetails
+  CompanyApplyAPI,
+  CompanyConfirmAPI,
+  AddMentorAPI
 } from "@/restApi/company.api";
 import getErrorMessage from "@/restApi/helper.api";
 
@@ -24,8 +24,11 @@ interface AuthState {
   showAll: (payload: string) => Promise<void>;
   showOne: (id: string) => Promise<void>;
   create: (data: FormData) => Promise<void>;
-  update: (id: string, data: CompanyCreate) => Promise<void>;
-  delete: (id: string) => Promise<void>;
+  update: (id: string, data: FormData) => Promise<void>;
+  deleteCompany: (id: string) => Promise<void>;
+  apply: (id: string) => Promise<void>;
+  confirm: (userId: string, status: string) => Promise<void>;
+  addMentor: (teacherId: string, companyId: string) => Promise<void>;
 }
 
 const companyStore = create<AuthState>((set) => ({
@@ -39,7 +42,7 @@ const companyStore = create<AuthState>((set) => ({
   showAll: async (payload: string) => {
     set({ isLoading: true, error: null });
     try {
-      const response: CompanyResponse = await CompanyShowAllAPI(payload);
+      const response = await CompanyShowAllAPI(payload);
       set({
         company: response.data.items,
         isLoading: false,
@@ -73,7 +76,7 @@ const companyStore = create<AuthState>((set) => ({
   create: async (data: FormData) => {
     set({ isLoading: true, error: null });
     try{
-    const response: CompanyCreateResponse = await CompanyCreateAPI(data);
+    const response = await CompanyCreateAPI(data);
 
     set({
       isLoading: false,
@@ -87,7 +90,8 @@ const companyStore = create<AuthState>((set) => ({
     }
   },
 
-  update: async (id: string, data: CompanyCreate) => {
+  update: async (id: string, data: FormData) => {
+    
     set({ isLoading: true, error: null });
     try {
     await CompanyUpdateAPI(id, data);
@@ -102,16 +106,61 @@ const companyStore = create<AuthState>((set) => ({
     }
   },
 
-  delete: async (id: string) => {
+  deleteCompany: async (id: string) => {
     set({ isLoading: true, error: null });
     try {
       await CompanyDeleteAPI(id);
       set({
         isLoading: false
-      })
+      });
     } catch (error) {
       set({
-        error: getErrorMessage(error, "SOmething went wrong, please try again"),
+        error: getErrorMessage(error, "Something went wrong, please try again"),
+        isLoading: false,
+      })
+    }
+  },
+
+  apply: async (companyId: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      await CompanyApplyAPI(companyId);
+      set({
+        isLoading: false
+      });
+    } catch (error) {
+      set({
+        error: getErrorMessage(error, "Something went wrong, please try again"),
+        isLoading: false,
+      })
+    }
+  },
+
+  confirm: async (userId: string, status: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      await CompanyConfirmAPI(userId, status);
+      set({
+        isLoading: false
+      });
+    } catch (error) {
+      set({
+        error: getErrorMessage(error, "Something went wrong, please try again"),
+        isLoading: false,
+      })
+    }
+  },
+
+  addMentor: async (teacherId: string, companyId: string) => {
+    set({ isLoading: true, error: null });
+    try {
+      await AddMentorAPI(companyId, teacherId);
+      set({
+        isLoading: false
+      });
+    } catch (error) {
+      set({
+        error: getErrorMessage(error, "Something went wrong, please try again"),
         isLoading: false,
       })
     }

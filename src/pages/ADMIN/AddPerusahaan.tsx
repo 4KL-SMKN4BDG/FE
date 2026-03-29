@@ -5,11 +5,14 @@ import { ArrowLeft } from "lucide-react";
 import { listed } from "@/constant/listed";
 import fotoDepan from "../../assets/fotodepansmk.jpeg";
 import companyStore from "../../store/company.store";
+import { useSearchParams } from "react-router-dom";
+import { useEffect } from "react";
 
 const AddPerusahaan = () => {
 const navigate = useNavigate();
-const { create } = companyStore();
-const formData = new FormData();
+const { create, update, showOne, oneCompany } = companyStore();
+const [searchParams] = useSearchParams();
+const [idCompany, setIdCompany] = useState('');
 
 const [theme, setTheme] = useState<"lofi" | "night">("lofi");
 const toggleTheme = () => {
@@ -22,7 +25,7 @@ const [listPerusahaan, setListPerusahaan] = useState([
     description: "",
     address: "",
     capacity: "",
-    logo: null as File | null,
+    logo: null as File | null | string,
     preview: null as string | null
     },
 ]);
@@ -57,37 +60,74 @@ const handleAddForm = () => {
     ]);
 };
 
+useEffect(() => {
+    const id = searchParams.get("id")
+    if (id) setIdCompany(id)
+}, [searchParams])
+
+useEffect(() => {
+    if (idCompany) {
+        showOne(idCompany);
+    };
+}, [idCompany]);
+
+useEffect(() => {
+    if (oneCompany && idCompany) {
+        const cap = String(oneCompany.capacity)
+    setListPerusahaan([
+        {
+            name: oneCompany.name || '',
+            description: oneCompany.description || '',
+            address: oneCompany.address || '',
+            capacity: cap || '',
+            logo: null,
+            preview: oneCompany.logo || null,
+
+        }
+    ])
+    };
+}, [oneCompany]);
+
 const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // const DataCreatePerusahaan = listPerusahaan.map((item) => ({
-    //     name: item.name,
-    //     description: item.description,
-    //     address: item.address,
-    //     capacity: item.capacity,
-    //     logo: item.logo,
-    // }));
     
+    const formData = new FormData();
+
+if (idCompany != '') {
+    const perusahaan = listPerusahaan[0];
+
+    formData.append('name', perusahaan.name);
+    formData.append('description', perusahaan.description);
+    formData.append('address', perusahaan.address);
+    formData.append('capacity', perusahaan.capacity);
+    if (perusahaan.logo) formData.append('logo', perusahaan.logo);
+
+    update(idCompany, formData);
+} else {
     for (let i = 0; i < listPerusahaan.length; i++) {
     const perusahaan = listPerusahaan[i];
-        console.log(perusahaan.logo)
-    formData.append(`name[${i}]`, perusahaan.name)
-    formData.append(`description[${i}]`, perusahaan.description)
-    formData.append(`address[${i}]`, perusahaan.address)
-    formData.append(`capacity[${i}]`, String(perusahaan.capacity))
-    if (perusahaan.logo) formData.append(`logo`, perusahaan.logo)
+    
+    formData.append(`name[${i}]`, perusahaan.name);
+    formData.append(`description[${i}]`, perusahaan.description);
+    formData.append(`address[${i}]`, perusahaan.address);
+    formData.append(`capacity[${i}]`, String(perusahaan.capacity));
+    if (perusahaan.logo) formData.append(`logo`, perusahaan.logo);
     }
 
-    for (const [key, value] of formData.entries()) {
-        if (value instanceof File) {
-            console.log(key, value.name)
-        } else {
-        console.log(key, value)
-        }
-    };
-
     create(formData);
-    // navigate("/admin/perusahaan");
+}
+setIdCompany('')
+setListPerusahaan([
+{
+        name: '',
+        description: '',
+        address: '',
+        capacity: '',
+        logo: null,
+        preview: null
+    }
+])
+navigate(listed.PerusahaanPage)
 };
 
     return (
@@ -111,7 +151,21 @@ const handleSubmit = (e: React.FormEvent) => {
     <div className="max-w-6xl mx-auto px-6 py-8">
 
             {/* BACK */}
-            <button onClick={() => navigate(listed.PerusahaanPage)} className="mb-6 flex items-center gap-2 text-sm font-bold text-gray-500 hover:underline">
+            <button onClick={() => {
+                setIdCompany('')
+                setListPerusahaan([
+                {
+                    name: '',
+                    description: '',
+                    address: '',
+                    capacity: '',
+                    logo: null,
+                    preview: null
+                }
+                ])
+                navigate(listed.PerusahaanPage)
+                }} 
+                className="mb-6 flex items-center gap-2 text-sm font-bold text-gray-500 hover:underline">
             <ArrowLeft size={18} />Kembali</button>
 
             {/* FORM */}
@@ -125,7 +179,7 @@ const handleSubmit = (e: React.FormEvent) => {
                   <div className="flex flex-col items-center justify-center gap-3 h-full">
 
                     <div className="w-48 h-48 rounded-xl overflow-hidden shadow bg-base-200 flex items-center justify-center">
-                        {item.preview ? (
+                        { item.preview ? (
                             <img
                                 src={item.preview}
                                 alt="Preview"
@@ -208,14 +262,14 @@ const handleSubmit = (e: React.FormEvent) => {
                 </div>
                 </div>
                         ))}
-                <button
+                {!idCompany && (<button
                 type="button"
                 onClick={handleAddForm}
                 className="btn btn-secondary mb-4">
                     + Tambah Form
-                </button>
+                </button>)}
 
-                    <button className="btn btn-primary w-40 mt-2">
+                    <button type="submit" className="btn btn-primary w-40 mt-2">
                         Simpan
                     </button>
 
