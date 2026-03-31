@@ -9,9 +9,10 @@ const apiClient: AxiosInstance = axios.create({
   
 apiClient.interceptors.request.use(
   (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
-    // config.headers['Content-Type'] = 'application/json';
     config.headers['Access-Control-Allow-Origin'] = '*';
-    config.headers['ngrok-skip-browser-warning'] = 'false';
+    // UBAH DISINI: Harus 'true' agar ngrok tidak memblokir API
+    config.headers['ngrok-skip-browser-warning'] = 'true'; 
+    
     const { token } = useAuthStore.getState();
     if (token) {
       config.headers.authorization = `Bearer ${token}`;
@@ -25,10 +26,8 @@ apiClient.interceptors.response.use(
   (response) => response,
   async (error) => {
     const originalRequest = error.config;
-
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
-
       try {
         const newToken = await useAuthStore.getState().refreshToken();
         if (newToken) {
@@ -41,7 +40,6 @@ apiClient.interceptors.response.use(
         window.location.href = listed.signin;
       }
     }
-
     return Promise.reject(error);
   }
 );
