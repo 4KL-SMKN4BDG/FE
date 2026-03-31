@@ -29,14 +29,14 @@ const DashboardAdmin = () => {
         description:
         "Kelola data guru pembimbing yang bertanggung jawab selama PKL.",
         icon: <Users size={40} />,
-        path: listed.GuruPage,
+        path: `${listed.UserPage}?role=teacher`,
     },
     {
         title: "Siswa",
         description:
         "Kelola data siswa yang mengikuti Praktik Kerja Lapangan.",
         icon: <GraduationCap size={40} />,
-        path: listed.AddSiswa, //sementara diubah dulu buat developmenyt
+        path: `${listed.UserPage}?role=student`, //sementara diubah dulu buat developmenyt
     },
     ];
 
