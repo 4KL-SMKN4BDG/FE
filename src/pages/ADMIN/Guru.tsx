@@ -17,7 +17,9 @@ import { useSearchParams } from "react-router-dom";
     const { user } = useAuthStore();
     const roleSearch = searchParams.get("role") === "teacher" ? "TEACHER" : "STUDENT"; 
     const role = user?.roles[0]?.code === "ADMIN" ? "ADMIN" : "STUDENT";
-    const payload = `paginate=true&limit=10&where=roles.some.code:${roleSearch}`;
+    const payload = `paginate=true&limit=1000&where=roles.some.code:${roleSearch}`;
+    const [search, setSearch] = useState("");
+    
 
     useEffect(() => {
         showAll(payload);
@@ -25,7 +27,17 @@ import { useSearchParams } from "react-router-dom";
 
     const toggleTheme = () => {
     setTheme(prev => (prev === "lofi" ? "night" : "lofi"));
-};
+    };
+
+    const filteredUser = listUser?.filter((item) => {
+    const keyword = search.toLowerCase();
+
+    return (
+        item.name?.toLowerCase().includes(keyword) ||
+        item.class?.toLowerCase().includes(keyword)
+    );
+    });
+
 
     return (
     <div data-theme={theme} className="min-h-screen bg-base-200">
@@ -50,25 +62,34 @@ import { useSearchParams } from "react-router-dom";
         <ArrowLeft size={18} /> Kembali
     </button>
 
-        {/* ACTION BUTTON */}
-    <div className="flex justify-between items-center mb-6">
-  <h2 className="text-lg font-semibold">
-  </h2>
+        {/* SEARCH + ACTION */}
+        <div className="flex justify-between items-center mb-4">
+        
+        {/* SEARCH */}
+        <input
+            type="text"
+            placeholder="Search nama atau kelas..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="input input-bordered w-64"
+        />
 
-  {role === "ADMIN" && (
-    <button
-      className="btn btn-success btn-sm"
-      onClick={() => {
-        navigate(`${listed.AddUser}?role=${roleSearch.toLowerCase()}`);
-      }}
-    >
-      + Add User
-    </button>
-  )}
-</div>
+        {/* BUTTON KANAN */}
+        {role === "ADMIN" && (
+            <button
+            className="btn btn-success btn-sm"
+            onClick={() => {
+                navigate(`${listed.AddUser}?role=${roleSearch.toLowerCase()}`);
+            }}
+            >
+            + Add User
+            </button>
+        )}
+        </div>
+
         {/* LIST */}
     <div className="bg-base-100 rounded-xl shadow">
-        {listUser?.map((item, index) => (
+        {filteredUser?.map((item, index) => (
             <div
                 key={item.id}
                 className="flex items-center gap-4 px-5 py-4 border-b last:border-none hover:bg-base-200 transition"
@@ -98,7 +119,7 @@ import { useSearchParams } from "react-router-dom";
                     <button
                         className="text-blue-600 hover:underline"
                         onClick={() => {
-                        navigate(`${listed.RequestPage}?id=${item.id}`);
+                        navigate(`${listed.View}?id=${item.id}`);
                         }}
                     >
                         Detail

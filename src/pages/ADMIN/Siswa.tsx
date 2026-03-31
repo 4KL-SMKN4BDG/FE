@@ -43,7 +43,7 @@ const Siswa = () => {
                 <img src={fotoDepan} alt="Header" className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/40" />
                 <div className="absolute inset-0 flex items-center justify-center">
-                    <h1 className="text-white text-3xl font-bold tracking-widest"> DATA SISWA </h1>
+                    <h1 className="text-white text-3xl font-bold tracking-widest"> DATA SISWA  </h1>
                 </div>
             </div>
 

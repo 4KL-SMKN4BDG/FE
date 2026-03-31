@@ -97,7 +97,10 @@ const AddSiswa = () => {
                         </div>
 
                         <div className="md:col-span-2 flex justify-center mt-6">
-                            <button type="submit" className="btn btn-primary px-12">
+                            <button 
+                            type="submit" 
+                            onClick={() => navigate(`${listed.View}?role=${roleSearch.toLowerCase}`)}
+                            className="btn btn-primary px-12">
                                 REGIST
                             </button>
                         </div>

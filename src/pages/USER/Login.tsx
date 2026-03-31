@@ -52,7 +52,7 @@ const Login = () => {
   useEffect(() => {
     if (user) { 
       if (user.email) navigate(listed.dashboard) 
-      else navigate(listed.MainPage)
+      else navigate(listed.dashboard)
       };
   }, [user, navigate]);
 
