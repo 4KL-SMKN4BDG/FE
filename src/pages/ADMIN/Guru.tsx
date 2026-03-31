@@ -17,7 +17,7 @@ import { useSearchParams } from "react-router-dom";
     const { user } = useAuthStore();
     const roleSearch = searchParams.get("role") === "teacher" ? "TEACHER" : "STUDENT"; 
     const role = user?.roles[0]?.code === "ADMIN" ? "ADMIN" : "STUDENT";
-    const payload = `paginate=true&limit=10&where=roles.some.code:${roleSearch}`;
+    const payload = `paginate=true&limit=1000&where=roles.some.code:${roleSearch}`;
 
     useEffect(() => {
         showAll(payload);
